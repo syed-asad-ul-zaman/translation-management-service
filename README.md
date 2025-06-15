@@ -5,6 +5,7 @@ A high-performance Laravel 12 translation management system designed for enterpr
 ## 🚀 Features
 
 - **Multi-Locale Support**: Manage translations across multiple languages and locales
+- **CDN Support**: Content Delivery Network integration for translation exports
 - **Advanced Tagging System**: Organize translations with custom tags and categories  
 - **High-Performance APIs**: Optimized endpoints with <200ms response times
 - **Fast Export**: JSON exports optimized for <500ms response times
@@ -13,7 +14,7 @@ A high-performance Laravel 12 translation management system designed for enterpr
 - **Authentication**: Token-based authentication using Laravel Sanctum
 - **Caching**: Redis-powered caching for optimal performance
 - **API Documentation**: Comprehensive OpenAPI/Swagger documentation
-- **Test Coverage**: >95% test coverage with comprehensive test suite
+- **Test Coverage**: 100 tests with 709 assertions (>95% coverage)
 - **Docker Support**: Complete containerized deployment setup
 
 ## 📋 Requirements
@@ -249,6 +250,13 @@ curl -X GET http://localhost:8000/api/translations \
 - `POST /api/translations/bulk` - Bulk operations
 - `GET /api/translations/export` - Export translations
 
+#### Export Endpoints (with CDN Support)
+- `GET /api/export/locale/{locale}` - Export translations for specific locale
+- `GET /api/export/all` - Export all translations grouped by locale
+- `POST /api/export/keys` - Export specific translation keys
+- `GET /api/export/tag/{tag}` - Export translations by tag
+- `GET /api/export/stats` - Export statistics and metadata
+
 #### Locales
 - `GET /api/locales` - List locales
 - `POST /api/locales` - Create locale
@@ -415,12 +423,12 @@ sudo chmod -R 775 /var/www/translation-service/bootstrap/cache
 ### Test Coverage
 
 ```
-Tests:    93 passed (654 assertions)
-Duration: ~5 seconds
+Tests:    100 passed (709 assertions)
+Duration: 5.37 seconds
 
 Test Suites:
-- Unit Tests: 30+ tests covering models and business logic
-- Feature Tests: 50+ tests covering API endpoints  
+- Unit Tests: 36 tests covering models and business logic
+- Feature Tests: 64 tests covering API endpoints and CDN integration
 - Performance Tests: 11 tests ensuring <200ms response times
 ```
 
