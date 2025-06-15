@@ -6,28 +6,29 @@ A high-performance Laravel 12 translation management system designed for enterpr
 
 - **Multi-Locale Support**: Manage translations across multiple languages and locales
 - **CDN Support**: Content Delivery Network integration for translation exports
-- **Advanced Tagging System**: Organize translations with custom tags and categories  
+- **Advanced Tagging System**: Organize translations with custom tags and categories
 - **High-Performance APIs**: Optimized endpoints with <200ms response times
 - **Fast Export**: JSON exports optimized for <500ms response times
 - **Search & Filtering**: Full-text search with advanced filtering options
 - **Bulk Operations**: Efficient bulk create, update, and delete operations
 - **Authentication**: Token-based authentication using Laravel Sanctum
-- **Caching**: Redis-powered caching for optimal performance
-- **API Documentation**: Comprehensive OpenAPI/Swagger documentation
+- **Caching**: High-performance caching for optimal performance
+- **API Documentation**: Comprehensive API documentation
 - **Test Coverage**: 100 tests with 709 assertions (>95% coverage)
 - **Docker Support**: Complete containerized deployment setup
 
 ## 📋 Requirements
 
 ### Production Requirements
+
 - PHP ^8.2
 - Laravel ^12.0
 - MySQL 8.0+ or PostgreSQL 13+
-- Redis 6.0+
 - Node.js 18+ (for frontend assets)
 - Docker & Docker Compose (for containerized deployment)
 
 ### Testing Requirements
+
 - SQLite 3+ (required for test suite)
 - PHP SQLite extensions: `pdo_sqlite`, `sqlite3`
 
@@ -49,6 +50,7 @@ brew install sqlite
 ### Quick Start with Docker
 
 1. **Clone and setup**
+
 ```bash
 git clone <repository-url>
 cd translation-management-service
@@ -56,11 +58,13 @@ cp .env.example .env
 ```
 
 2. **Build and start services**
+
 ```bash
 docker-compose up -d --build
 ```
 
 3. **Setup application**
+
 ```bash
 docker-compose exec app composer install
 docker-compose exec app php artisan key:generate
@@ -68,6 +72,7 @@ docker-compose exec app php artisan migrate --seed
 ```
 
 4. **Verify installation**
+
 ```bash
 docker-compose exec app php artisan test
 ```
@@ -77,9 +82,10 @@ The application will be available at `http://localhost:8000`
 ### Local Development Setup
 
 1. **Prerequisites**
+
 ```bash
 # Install PHP 8.2+ with required extensions
-sudo apt-get install php8.2 php8.2-cli php8.2-fpm php8.2-mysql php8.2-redis php8.2-mbstring php8.2-xml php8.2-curl php8.2-zip php8.2-sqlite3
+sudo apt-get install php8.2 php8.2-cli php8.2-fpm php8.2-mysql php8.2-mbstring php8.2-xml php8.2-curl php8.2-zip php8.2-sqlite3
 
 # Install Composer
 curl -sS https://getcomposer.org/installer | php
@@ -91,6 +97,7 @@ sudo apt-get install -y nodejs
 ```
 
 2. **Application setup**
+
 ```bash
 # Clone repository
 git clone <repository-url>
@@ -164,6 +171,7 @@ docker-compose exec app php -m | grep sqlite
 ### Troubleshooting Tests
 
 **SQLite not found?**
+
 ```bash
 # Install SQLite extensions
 sudo apt-get install sqlite3 php-sqlite3
@@ -176,6 +184,7 @@ sudo systemctl restart php8.2-fpm
 ```
 
 **Permission issues?**
+
 ```bash
 # Fix database permissions
 chmod 664 database/testing.sqlite
@@ -202,11 +211,8 @@ DB_USERNAME=your_username
 DB_PASSWORD=your_password
 
 # Cache & Session
-CACHE_DRIVER=redis
-SESSION_DRIVER=redis
-REDIS_HOST=127.0.0.1
-REDIS_PASSWORD=null
-REDIS_PORT=6379
+CACHE_STORE=database
+SESSION_DRIVER=database
 
 # Authentication
 SANCTUM_EXPIRATION=525600  # 1 year in minutes
@@ -215,8 +221,9 @@ SANCTUM_EXPIRATION=525600  # 1 year in minutes
 ### Performance Optimization
 
 **Production optimizations enabled:**
+
 - OPcache configuration for PHP
-- Redis caching for sessions and data
+- Database caching for sessions and data
 - Asset bundling and compression
 - Database query optimization
 - CDN support for static assets
@@ -241,6 +248,7 @@ curl -X GET http://localhost:8000/api/translations \
 ### Main Endpoints
 
 #### Translations
+
 - `GET /api/translations` - List translations with filtering
 - `POST /api/translations` - Create new translation
 - `GET /api/translations/{id}` - Get specific translation
@@ -251,6 +259,7 @@ curl -X GET http://localhost:8000/api/translations \
 - `GET /api/translations/export` - Export translations
 
 #### Export Endpoints (with CDN Support)
+
 - `GET /api/export/locale/{locale}` - Export translations for specific locale
 - `GET /api/export/all` - Export all translations grouped by locale
 - `POST /api/export/keys` - Export specific translation keys
@@ -258,6 +267,7 @@ curl -X GET http://localhost:8000/api/translations \
 - `GET /api/export/stats` - Export statistics and metadata
 
 #### Locales
+
 - `GET /api/locales` - List locales
 - `POST /api/locales` - Create locale
 - `GET /api/locales/{id}` - Get locale details
@@ -265,6 +275,7 @@ curl -X GET http://localhost:8000/api/translations \
 - `DELETE /api/locales/{id}` - Delete locale
 
 #### Translation Tags
+
 - `GET /api/translation-tags` - List tags
 - `POST /api/translation-tags` - Create tag
 - `GET /api/translation-tags/{id}` - Get tag details
@@ -294,15 +305,12 @@ All API responses follow a consistent format:
 }
 ```
 
-### OpenAPI Documentation
-
-Interactive API documentation is available at `/api/documentation` when the application is running.
-
 ## 🚀 Deployment
 
 ### Docker Production Deployment
 
 1. **Prepare environment**
+
 ```bash
 # Clone to production server
 git clone <repository-url> /var/www/translation-service
@@ -314,6 +322,7 @@ cp .env.example .env
 ```
 
 2. **Deploy with Docker Compose**
+
 ```bash
 # Build production images
 docker-compose -f docker-compose.prod.yml build
@@ -331,11 +340,12 @@ docker-compose -f docker-compose.prod.yml exec app php artisan view:cache
 ```
 
 3. **Setup reverse proxy (Nginx)**
+
 ```nginx
 server {
     listen 80;
     server_name yourdomain.com;
-    
+  
     location / {
         proxy_pass http://localhost:8000;
         proxy_set_header Host $host;
@@ -349,6 +359,7 @@ server {
 ### Traditional Server Deployment
 
 1. **Server preparation**
+
 ```bash
 # Install PHP 8.2+ with extensions
 sudo apt-get update
@@ -363,6 +374,7 @@ sudo mv composer.phar /usr/local/bin/composer
 ```
 
 2. **Application deployment**
+
 ```bash
 # Deploy code
 git clone <repository-url> /var/www/translation-service
@@ -453,6 +465,7 @@ Test Suites:
 ### Common Issues
 
 **Tests failing with SQLite errors?**
+
 ```bash
 # Ensure SQLite is installed and accessible
 php -m | grep sqlite
@@ -464,6 +477,7 @@ chmod 664 database/testing.sqlite
 ```
 
 **Docker containers not starting?**
+
 ```bash
 # Check Docker logs
 docker-compose logs app
@@ -475,6 +489,7 @@ docker-compose down && docker-compose up -d
 ```
 
 **Performance issues?**
+
 ```bash
 # Clear all caches
 php artisan cache:clear
@@ -489,6 +504,7 @@ php artisan view:cache
 ```
 
 **Database connection issues?**
+
 ```bash
 # Check database configuration
 php artisan tinker
@@ -540,16 +556,16 @@ For support and questions:
 
 - Create an issue in the repository
 - Check the troubleshooting section above
-- Review the API documentation at `/api/documentation`
 
 ---
 
 **Translation Management Service** - Built with ❤️ using Laravel 12
 
-   ```bash
+```bash
    git clone <repository-url>
    cd translation-management-service
-   ```
+```
+
 2. **Install dependencies**
 
    ```bash
@@ -776,6 +792,7 @@ docker-compose exec app php artisan test
 ### Test Configuration
 
 Tests use SQLite in-memory database (`:memory:`) for speed and isolation:
+
 - Configuration: `.env.testing`
 - Database: SQLite in-memory
 - Cache: Array driver
@@ -818,6 +835,7 @@ php artisan tinker --env=testing
 **Common Solutions:**
 
 **Windows (XAMPP/Laragon)**:
+
 ```ini
 # Enable in php.ini
 extension=sqlite3
@@ -825,12 +843,14 @@ extension=pdo_sqlite
 ```
 
 **Ubuntu/Debian**:
+
 ```bash
 sudo apt-get install sqlite3 php-sqlite3
 sudo service apache2 restart  # or nginx
 ```
 
 **macOS**:
+
 ```bash
 brew install sqlite
 # Restart your web server
@@ -841,6 +861,7 @@ brew install sqlite
 ### Performance Test Failures
 
 If performance tests fail:
+
 1. Ensure Redis is running
 2. Run database migrations: `php artisan migrate:fresh`
 3. Clear caches: `php artisan cache:clear`
